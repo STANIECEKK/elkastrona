@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELKA Centrum Budowlane</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #8BC34A; /* Jasna zieleń z logo */
+            --secondary-green: #2A6B67; /* Morski odcień z logo */
+            --light-gray: #f8f9fa;
+            --dark-text: #212529;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            height: 50px;
+            width: auto;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-green);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            z-index: 1001;
+        }
+        
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--secondary-green);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+        
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+        
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            padding: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            transform: translateY(-150%);
+            transition: transform 0.3s ease-in-out;
+            visibility: hidden;
+            opacity: 0;
+        }
+        
+        .mobile-menu.active {
+            transform: translateY(0);
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .mobile-menu a {
+            display: block;
+            padding: 1rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .mobile-menu a:hover {
+            background-color: rgba(139, 195, 74, 0.1);
+            color: var(--primary-green);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5rem;
+            z-index: 2;
+        }
+        
+        .hero-image {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary-green) 0%, rgba(42, 107, 103, 0.7) 100%);
+            z-index: 1;
+            mix-blend-mode: multiply;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-green);
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            max-width: 540px;
+            color: #555;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(139, 195, 74, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary-green);
+            border: 2px solid var(--secondary-green);
+        }
+        
+        .btn-primary:hover {
+            background-color: #7cb342;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(139, 195, 74, 0.4);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(42, 107, 103, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Manufacturers Section - Karuzela */
+        .manufacturers {
+            padding: 4rem 2rem;
+            text-align: center;
+            background-color: var(--light-gray);
+        }
+        
+        .manufacturers h2 {
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
+            color: var(--secondary-green);
+        }
+        
+        .carousel {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .carousel-track {
+            display: flex;
+            gap: 2rem;
+            animation: scroll 20s linear infinite;
+            width: calc(150px * 12 + 2rem * 12); /* Szerokość = (szerokość loga * ilość logo * 2) + (odstępy * ilość logo * 2) */
+        }
+        
+        .carousel-track img {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        /* Duplikujemy zestaw logo dla płynnego przewijania */
+        .carousel-track img:nth-child(n+7) {
+            margin-left: 2rem;
+        }
+        
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-150px * 6 - 2rem * 6)); /* Połowa szerokości karuzeli */
+            }
+        }
+        
+        /* Sekcja usług i oferty - KAFELKI */
+        .services {
+            padding: 5rem 0;
+            background-color: var(--white);
+        }
+        
+        .services-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 0 2rem;
+        }
+        
+        .services-header h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-green);
+            margin-bottom: 1rem;
+        }
+        
+        .services-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .service-tile {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards;
+        }
+        
+        .service-tile:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Animacja dla kafelków */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .service-tile:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .service-tile:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        .service-tile:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+        
+        .service-image {
+            height: 250px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .service-tile:hover .service-image img {
+            transform: scale(1.05);
+        }
+        
+        .service-content {
+            padding: 2rem;
+        }
+        
+        .service-content h3 {
+            font-size: 1.5rem;
+            color: var(--secondary-green);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .service-content h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-green);
+            border-radius: 3px;
+        }
+        
+        .service-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-features {
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-icon {
+            color: var(--primary-green);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .service-content .btn {
+            padding: 0.8rem 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Info Popup */
+        .info-popup {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            max-width: 300px;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        
+        .info-popup.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .info-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-popup h3 {
+            color: var(--secondary-green);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .close-popup {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .close-popup:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+        }
+        
+        .info-icon {
+            color: var(--primary-green);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+        }
+        
+        /* Popup Toggle Button */
+        .info-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-green);
+            color: var(--white);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(139, 195, 74, 0.3);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        .info-toggle:hover {
+            background-color: #7cb342;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(139, 195, 74, 0.4);
+        }
+        
+        .info-toggle span {
+            font-size: 1.8rem;
+        }
+        
+        /* Animacje */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero h1, .hero p, .cta-buttons {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .hero p {
+            animation-delay: 0.2s;
+        }
+        
+        .cta-buttons {
+            animation-delay: 0.4s;
+        }
+        .contact-section {
+            padding: 5rem 2rem;
+            background-color: var(--light-gray);
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            padding-right: 2rem;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-green);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .contact-info h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-green);
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .contact-content p {
+            margin: 0;
+            color: var(--dark-text);
+            line-height: 1.5;
+        }
+
+        .contact-content a {
+            color: var(--secondary-green);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-content a:hover {
+            color: var(--primary-green);
+        }
+
+        .map-container {
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .footer {
+    background-color: var(--light-gray);
+    padding: 1.2rem 0;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    margin-top: 3rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.footer a {
+    color: var(--secondary-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: var(--primary-green);
+}
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Wysokość Twojego nagłówka */
+}
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+            
+            .hero-content {
+                padding: 2rem;
+                order: 2;
+            }
+            
+            .hero-image {
+                order: 1;
+                height: 50vh;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .info-toggle {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .info-popup {
+                max-width: 280px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .carousel-track img {
+                height: 60px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content {
+                padding: 1.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.6rem;
+                font-size: 0.9rem;
+            }
+            
+            .manufacturers h2 {
+                font-size: 1.5rem;
+            }
+            
+            .services-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+            @media (max-width: 992px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .contact-info {
+                padding-right: 0;
+            }
+            
+            .map-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .contact-info h2 {
+                font-size: 2rem;
+            }
+            
+            .contact-item {
+                align-items: flex-start;
+            }
+        }
+        @media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+        
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <img src="elka.png" alt="ELKA Centrum Budowlane" class="logo">
+        <div class="nav-links">
+            <a href="manufacturers">Nasi partnerzy</a>
+            <a href="#services">Oferta</a>
+            <a href="#contact-section">Kontakt</a>
+        </div>
+        <div class="hamburger" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+    
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#manufacturers">Nasi partnerzy</a>
+        <a href="#services">Oferta</a>
+        <a href="#contact-section">Kontakt</a>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Wszystko do budowy i remontu w jednym miejscu</h1>
+            <p>Profesjonalne materiały budowlane i narzędzia najwyższej jakości dla wykonawców i klientów indywidualnych</p>
+            <div class="cta-buttons">
+                <a href="tel:+48570288116" class="btn btn-primary">Zadzwoń do nas</a>
+                <a href="#services" class="btn btn-secondary">Sprawdź ofertę</a>
+            </div>
+        </div>
+        
+        <div class="hero-image">
+            <img src="budowa1.jpg" alt="Materiały budowlane" class="hero-bg">
+            <div class="hero-overlay"></div>
+        </div>
+    </section>
+    
+    <!-- Sekcja karuzeli producentów -->
+    <section class="manufacturers">
+        <h2>Producenci, których towary posiadamy</h2>
+        <div class="carousel">
+            <div class="carousel-track">
+                <!-- Pierwszy zestaw logo -->
+                <img src="knauf.png" alt="Logo producenta 1">
+                <img src="atlas.png" alt="Logo producenta 2">
+                <img src="isover.png" alt="Logo producenta 3">
+                <img src="austro.png" alt="Logo producenta 4">
+                <img src="soudal.png" alt="Logo producenta 5">
+                <img src="domstyr.png" alt="Logo producenta 6">
+                
+                <!-- Duplikacja logo dla płynnego przewijania -->
+                <img src="knauf.png" alt="Logo producenta 1">
+                <img src="atlas.png" alt="Logo producenta 2">
+                <img src="isover.png" alt="Logo producenta 3">
+                <img src="austro.png" alt="Logo producenta 4">
+                <img src="soudal.png" alt="Logo producenta 5">
+                <img src="domstyr.png" alt="Logo producenta 6">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Nowa sekcja usług w formie kafelków -->
+    <section class="services" id="uslugi">
+        <div class="services-header">
+            <h2>Nasza oferta i usługi</h2>
+            <p>W ELKA Centrum Budowlane znajdziesz pełen zakres materiałów budowlanych oraz profesjonalne narzędzia. Oferujemy również usługi, które ułatwią Twój projekt budowlany lub remontowy.</p>
+        </div>
+        
+        <div class="services-grid">
+            <!-- Kafelek 1 -->
+            <div class="service-tile">
+                <div class="service-image">
+                    <img src="mieszalnia.jpg" alt="Materiały budowlane">
+                </div>
+                <div class="service-content">
+                    <h3>Mieszalnia farb i tynków</h3>
+                    <p>Oferujemy mieszanie farb i tynków, posiadamy profesjonalny sprzęt i najwyższej jakości materiały.</p>
+                    <div class="service-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Mieszanie farb i tynków</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Pomoc w doborze koloru</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Szczelne pakowanie</span>
+                        </div>
+                    </div>
+                    <a href="#materialy" class="btn btn-secondary">Sprawdź asortyment</a>
+                </div>
+            </div>
+            
+            <!-- Kafelek 2 -->
+            <div class="service-tile">
+                <div class="service-image">
+                    <img src="budowa.jpg" alt="Narzędzia">
+                </div>
+                <div class="service-content">
+                    <h3>Materiały budowlane</h3>
+                    <p>Posiadamy bardzo szeroką ofertę materiałów budowlanych i wykończeniowych</p>
+                    <div class="service-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Profesjonalne doradztwo</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Najlepsze ceny na rynku</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Realizacja nietypowych zamówień</span>
+                        </div>
+                    </div>
+                    <a href="#narzedzia" class="btn btn-secondary">Zobacz narzędzia</a>
+                </div>
+            </div>
+            
+            <!-- Kafelek 3 -->
+            <div class="service-tile">
+                <div class="service-image">
+                    <img src="docieplenia.jpg" alt="Transport">
+                </div>
+                <div class="service-content">
+                    <h3>Systemy dociepleń</h3>
+                    <p>Zapewniamy kompleksowe zaopatrzenie w systemy dociepleń budynków.</p>
+                    <div class="service-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Dostawa tego samego dnia</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Najlepsi producenci</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Darmowe pomiary i wycena</span>
+                        </div>
+                    </div>
+                    <a href="#transport" class="btn btn-secondary">Dowiedz się więcej</a>
+                </div>
+            </div>
+            
+            <!-- Kafelek 4 -->
+            <div class="service-tile">
+                <div class="service-image">
+                    <img src="zabudowa.jpg" alt="Doradztwo">
+                </div>
+                <div class="service-content">
+                    <h3>Systemy suchej zabudowy</h3>
+                    <p>Nasi eksperci pomogą wybrać odpowiednie materiały do suchej zabudowy.</p>
+                    <div class="service-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Konsultacje ze specjalistami</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Dobór materiałów pod potrzeby</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Kalkulacja ilości materiałów</span>
+                        </div>
+                    </div>
+                    <a href="#doradztwo" class="btn btn-secondary">Skonsultuj się z nami</a>
+                </div>
+            </div>
+            <div class="service-tile">
+                <div class="service-image">
+                    <img src="narzędzia.jpg" alt="Doradztwo">
+                </div>
+                <div class="service-content">
+                    <h3>Narzędzia</h3>
+                    <p>W naszym sklepie znajdziesz szeroki wybór narzędzi ręcznych i elektronarzędzi renomowanych producentów.</p>
+                    <div class="service-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Narzędzia ręczne i elektronarzędzia</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Światowej klasy producenci</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Rabaty przy większych zamówieniach</span>
+                        </div>
+                    </div>
+                    <a href="#doradztwo" class="btn btn-secondary">Skonsultuj się z nami</a>
+                </div>
+            </div>
+            <div class="service-tile">
+                <div class="service-image">
+                    <img src="opał.jpg" alt="Doradztwo">
+                </div>
+                <div class="service-content">
+                    <h3>Opał</h3>
+                    <p>Materiały opałowe dostępne od ręki lub na zamówienie.</p>
+                    <div class="service-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Najlepsze ceny</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Szeroki wybór</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Polscy dostawcy</span>
+                        </div>
+                    </div>
+                    <a href="#doradztwo" class="btn btn-secondary">Skonsultuj się z nami</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact-section" id="kontakt">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Skontaktuj się z nami</h2>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-content">
+                            <p><strong>Adres:</strong><br>
+                            Skomielna Biała 479<br>
+                            32-434 Skomielna Biała</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-content">
+                            <p><strong>Godziny otwarcia:</strong><br>
+                            Pon-Pt: 6:00 - 18:00<br>
+                            Sobota: 7:00 - 14:00</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-content">
+                            <p><strong>Telefon:</strong><br>
+                            <a href="tel:+48123456789">+48 570 288 116</a><br>
+                            <a href="tel:+48987654321">+48 881 664 959</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-content">
+                            <p><strong>Email:</strong><br>
+                            <a href="mailto:kontakt@elkabud.pl">skladskomielna@gmail.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">💻</div>
+                        <div class="contact-content">
+                            <p><strong>Facebook:</strong><br>
+                            <a href="https://facebook.com/skladelka" target="_blank">Centrum Budowlane ELKA</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <!-- Tutaj wklej wygenerowany kod z Google Maps -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2583.61184908859!2d19.9144252!3d49.64276979999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471675b401a05b0b%3A0x96f1d0577bd8a37d!2sCentrum%20Budowlane%20ELKA!5e0!3m2!1spl!2spl!4v1743025055496!5m2!1spl!2spl" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    
+    <div class="info-toggle" id="info-toggle">
+        <span>📍</span>
+    </div>
+    
+    <div class="info-popup" id="info-popup">
+        <div class="info-popup-header">
+            <h3>Informacje kontaktowe</h3>
+            <div class="close-popup" id="close-popup">✕</div>
+        </div>
+        <div class="info-row">
+            <span class="info-icon">🕒</span>
+            <span>Pon-Pt: 6:00 - 18:00, Sob: 7:00 - 14:00</span>
+        </div>
+        <div class="info-row">
+            <span class="info-icon">📍</span>
+            <span>Skomielna Biała 479, 32-434</span>
+        </div>
+        <div class="info-row">
+            <span class="info-icon">📞</span>
+            <span>+48 570 288 116</span>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-copyright">
+                Centrum budowlane ELKA, wszelkie prawa zastrzeżone
+            </div>
+            <div class="footer-credits">
+                <a href="https://3dsites.pl" target="_blank">Projekt strony 3dsites.pl </a>
+            </div>
+        </div>
+    </footer>
+    
+    <audio id="notification-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3" preload="auto"></audio>
+    
+    <script>
+        // Czekamy na załadowanie całej strony
+        
+        window.onload = function() {
+            // Hamburger menu
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            // Upewnimy się, że elementy istnieją
+            if (hamburgerBtn && mobileMenu) {
+                hamburgerBtn.addEventListener('click', function() {
+                    // Toggle dla menu mobilnego
+                    mobileMenu.classList.toggle('active');
+                    hamburgerBtn.classList.toggle('active');
+                    console.log('Menu clicked, active state: ' + mobileMenu.classList.contains('active'));
+                });
+            }
+            
+            // Info popup
+            const infoToggle = document.getElementById('info-toggle');
+            const infoPopup = document.getElementById('info-popup');
+            const closePopup = document.getElementById('close-popup');
+            const notificationSound = document.getElementById('notification-sound');
+            
+            // Pokazujemy popup po 3 sekundach
+            setTimeout(function() {
+                if (infoPopup) {
+                    infoPopup.classList.add('visible');
+                    if (notificationSound) {
+                        notificationSound.play().catch(e => console.log("Auto-play prevented:", e));
+                    }
+                }
+            }, 3000);
+            
+            // Obsługa kliknięcia przycisku info
+            if (infoToggle && infoPopup && notificationSound) {
+                infoToggle.addEventListener('click', function() {
+                    infoPopup.classList.add('visible');
+                    notificationSound.play().catch(e => console.log("Auto-play prevented:", e));
+                });
+            }
+            
+            // Obsługa zamknięcia popup
+            if (closePopup && infoPopup) {
+                closePopup.addEventListener('click', function() {
+                    infoPopup.classList.remove('visible');
+                });
+            }
+            
+            // Zamknięcie menu po kliknięciu w link
+            const mobileLinks = document.querySelectorAll('.mobile-menu a');
+            if (mobileLinks.length > 0 && hamburgerBtn) {
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.remove('active');
+                        hamburgerBtn.classList.remove('active');
+                    });
+                });
+            }
+            document.addEventListener('DOMContentLoaded', function() {
+    // Płynne przewijanie z kompensacją wysokości nagłówka
+    const header = document.querySelector('.navbar');
+    const headerHeight = header ? header.offsetHeight : 0;
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if(targetElement) {
+                e.preventDefault();
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Obsługa parametrów URL z hash
+    if(window.location.hash) {
+        const targetElement = document.querySelector(window.location.hash);
+        if(targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop - headerHeight,
+                behavior: 'auto'
+            });
+        }
+    }
+});  
+        };
+    </script>
+</body>
+</html>
